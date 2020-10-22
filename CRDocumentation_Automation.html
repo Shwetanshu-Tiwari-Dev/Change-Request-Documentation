@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>Change Request Documentation</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="getDefault()">
+
+<div id="head">
+		<h1>Change Request Documentation</h1>
+		<hr>
+	</div>
+<div id="on">
+		<form >
+		
+			<label for="folder">Folder :</label> <br>
+			<input type="text" id="doc1" disabled name="folder" value="C:\\CRDocumentation\\Template" required> <br><label for="destinationFolder">Destination Folder :</label> <br>
+			<input type="text" id="doc7" disabled name="destinationFolder"  required> <br> <label id="pnumh" for="<projectNumberHolder>">Project Number :</label> <br>
+			<input type="text" id="doc8" name="projectNumberHolder" required> <br> <label id="pnh" for="<projectNameHolder>">Project Name :</label> <br>
+			<input type="text" id="doc2" name="projectNameHolder" required> <br> <label id="crnh" for="<changeRequestNumberHolder>">Change Request Number :</label> <br>
+			<input type="text" id="doc3" name="changeRequestNumberHolder" required> <br> <label id="pbh" for="<preparedByHolder>">Prepared By :</label> <br>
+			<input type="text" id="doc4" name="preparedByHolder" required> <br> <label id="pdh" for="<preparedDateHolder>">Prepared Date :</label> <br>
+			<input type="date" id="doc5" name="preparedDateHolder" required> <br> <label id="tdh" for="<targetDateHolder>">Target Date :</label> <br>
+			<input type="date" id="doc6" name="targetDateHolder" required> <br>
+			<input type="submit" onclick="checkInput()" value="submit">
+		</form>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script type="text/javascript">
+
+	function getDefault()
+	{
+		var d=new Date();
+		var date=d.toDateString();
+		var hours=d.getHours();
+		var minutes=d.getMinutes();
+		var am_pm=hours>=12?"PM":"AM";
+		var dateTime=date+"_"+hours+" "+minutes+" "+am_pm;
+		document.getElementById("doc5").value=d.toLocaleDateString();
+		document.getElementById("doc6").value=d.toLocaleDateString();
+		document.getElementById("doc7").value="C:\\CRDocumentation\\Results\\"+dateTime+"\\";
+	}
+
+	function checkInput()
+	{	
+		var folderToOpen=document.getElementById("doc1").value;
+		var projectNumber=document.getElementById("doc8").value;
+		var projectName=document.getElementById("doc2").value;
+		var changeRequestNumber=document.getElementById("doc3").value;
+		var preparedBy=document.getElementById("doc4").value;
+		var preparedDate=document.getElementById("doc5").value;
+		var targetDate=document.getElementById("doc6").value;
+		
+		if(folderToOpen!="" && projectNumber!="" && projectName!="" && changeRequestNumber!="" && preparedBy!="" && preparedDate!="" && targetDate!="")
+		{
+			createExcel(folderToOpen, projectNumber, projectName, changeRequestNumber, preparedBy, preparedDate, targetDate);
+		}
+		else
+		{
+			alert("Fill All Required Details");
+		}
+	}
+
+	function createExcel(folderToOpen, projectNumber, projectName, changeRequestNumber, preparedBy, preparedDate, targetDate)
+	{	
+	
+		var dir=new ActiveXObject("Scripting.FileSystemObject");
+		var makeFolder=dir.CreateFolder(document.getElementById("doc7").value);
+		var folder=dir.GetFolder(folderToOpen);
+		var en=new Enumerator(folder.Files); 
+
+		for(;!en.atEnd();en.moveNext())
+		{
+			var ExcelApp = new ActiveXObject("Excel.Application");	
+			ExcelApp.Visible = true;
+			
+			var ExcelSheet = ExcelApp.Workbooks.Open(en.item());
+			
+			var saveTo=en.item().name;
+			
+			var map=new Map();
+			map.set("pnumh",projectNumber);
+			map.set("pnh",projectName);
+			map.set("crnh",changeRequestNumber);
+			map.set("pbh",preparedBy);
+			map.set("pdh",preparedDate);
+			map.set("tdh",targetDate);
+			
+			var array=["pnumh", "pnh", "crnh", "pbh", "pdh", "tdh"];
+			
+			var j=0;
+			
+			for(j=0;j<array.length;j++)
+			{
+			
+				var data=ExcelSheet.ActiveSheet.Cells.find(document.getElementById(array[j]).htmlFor);
+				
+				if(data!=null)
+				{
+					ExcelSheet.ActiveSheet.Cells(data.Row,data.Column).Value =map.get(array[j]);
+				}
+			}
+			
+			var path=document.getElementById("doc7").value+saveTo;
+			
+			ExcelSheet.SaveAs(path);
+			ExcelSheet.Application.Quit();
+		}
+		alert("All documents are succesfully saved to: "+document.getElementById("doc7").value);
+	}
+</script>
+</html>

@@ -1,0 +1,83 @@
+#head{
+    text-align: center;
+    background-color: MediumSeaGreen;
+}
+
+#head h1 {
+    text-justify: inter-word;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: white;
+}
+
+#head hr{
+    margin-top: 0em;
+    margin-bottom: 1.5em;
+    border-style: inset;
+    border-width: 3px;
+    }
+
+    #on {
+    width: 50%;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#on input[type=file] {
+    width: 75%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#on input[type=text] {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#on input[type=password] {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#on input[type=date] {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#on input[type=submit] {
+    width: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#on input[type=submit]:hover {
+    background-color: #45a049;
+}
