@@ -6,3 +6,5 @@ PreRequisites for this project:
 1. Project should be in "C:\CRDocumentation\" folder.
 2. Run the html file of this project using Internet Explorer(use of ActiveX object).
 3. After opening the project click "Allow Blocked Content" popup just above the taskbar.
+
+For final product refer- Shwetanshu-Tiwari-Dev/Change-Request-Documentation/Final-Product.
